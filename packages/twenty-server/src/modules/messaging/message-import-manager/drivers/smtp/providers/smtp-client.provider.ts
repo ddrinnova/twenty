@@ -18,6 +18,18 @@ export class SmtpClientProvider {
       throw new Error('SMTP settings not configured for this account');
     }
 
+    if (smtpParams.host === 'smtp.gmail.com') {
+      const transporter = createTransport({
+        service: 'gmail',
+        auth: {
+          user: connectedAccount.handle,
+          pass: smtpParams.password,
+        },
+      });
+
+      return transporter;
+    }
+
     const transporter = createTransport({
       host: smtpParams.host,
       port: smtpParams.port,
